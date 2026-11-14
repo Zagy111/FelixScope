@@ -56,7 +56,10 @@ g++ -std=c++17 main.cpp -o FelixScope.exe
 - Practice clean code and software architecture
 - Build a useful open-source Windows utility
 
-
 ## 👨‍💻 Author
 
 Created by [Zagy111](https://github.com/Zagy111).
+
+---
+
+*Developed in memory of Felix. 🐾*
