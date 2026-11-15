@@ -1,9 +1,7 @@
 #include <iostream>
 #include <vector>
-// int choice;
-// int pid[4] = {123, 562, 946, 619};
-// std::string name[4] = {"discord.exe", "chromium.exe", "spotify.exe", "vscode.exe"};
-// int ram[4] = {120, 450, 210, 320};
+#include <windows.h>
+#include <tlhelp32.h>
 
 struct Process {
     int pid;
@@ -12,6 +10,36 @@ struct Process {
 };
 
 std::vector<Process> processes;
+
+
+void loadProcesses() {
+    HANDLE snapshot = CreateToolhelp32Snapshot(
+        TH32CS_SNAPPROCESS, 0
+    );
+
+    if (snapshot == INVALID_HANDLE_VALUE) {
+        std::cout << "Something went wrong!\n";
+        return;
+    }
+
+    PROCESSENTRY32 entry{};
+    entry.dwSize = sizeof(entry);
+
+    processes.clear();
+
+    if (Process32First(snapshot, &entry)) {
+        do {
+            processes.push_back({
+                static_cast<int>(entry.th32ProcessID),
+                entry.szExeFile,
+                0
+                });
+        } while (Process32Next(snapshot, &entry));
+    }
+
+    CloseHandle(snapshot);
+}
+
 
 
 
@@ -24,9 +52,9 @@ void waitForEnter() {
 
 void showProcesses() {
     std::cout << "\x1b[2J\x1b[H\n";
-    std::cout << "PROCESY\nPID     NAZWA     ZUZYCIE\n";
+    std::cout << "PROCESY\nPID     NAZWA\n";
     for (int i = 0; i < processes.size(); i++) {
-        std::cout << processes[i].pid << "  " << processes[i].name << "  " << processes[i].ram << "\n";
+        std::cout << processes[i].pid << "  " << processes[i].name << "\n";
     }
     
     waitForEnter();
@@ -76,33 +104,15 @@ void showLargestProcess() {
     }
 }
 
-void addProcess(){
-    std::cout << "\x1b[2J\x1b[H\n";
-    Process newProcess;
-    std::cout << "Podaj PID dla procesu: ";
-    std::cin >> newProcess.pid;
-    std::cout << "Podaj nazwe dla procesu: ";
-    std::cin >> newProcess.name;
-    std::cout << "Podaj zuzycie dla procesu: ";
-    std::cin >> newProcess.ram;
-
-    processes.push_back({newProcess.pid, newProcess.name, newProcess.ram});
-
-    waitForEnter();
-}
-
 int main(){
-    processes.push_back({123, "discord.exe", 120});
-    processes.push_back({372, "vscode.exe", 230});
-    processes.push_back({562, "chromium.exe", 450});
-    processes.push_back({946, "spotify.exe", 210});
-
     int choice;
+    
     //menu
     while (true) {
         std::cout << "\x1b[2J\x1b[H\n";
-        std::cout << "===== FelixScope v0.2 =====\n1. Wyswietl procesy\n2. Wyszukaj proces\n3. Proces z najwiekszym RAM\n4. Wyjscie\n99. dodanie procesu\nTwoj wybor: ";
+        std::cout << "===== FelixScope v0.3 =====\n1. Wyswietl procesy\n2. Wyszukaj proces\n4. Wyjscie\nTwoj wybor: ";
         std::cin >> choice;
+        loadProcesses();
 
         //wybory
         if (choice == 1) {
@@ -111,12 +121,9 @@ int main(){
         else if (choice == 2){
             findProcess();
         }
-        else if (choice == 3) {
+        /*else if (choice == 3) {
             showLargestProcess();
-        }
-        else if (choice == 99){
-            addProcess();
-        }
+        }*/
         else if (choice == 4) {
             break;
         }
