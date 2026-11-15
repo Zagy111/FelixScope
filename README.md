@@ -1,78 +1,114 @@
 # 🐾 FelixScope
 
-**A lightweight process monitoring tool written in C++.**
+**A lightweight Windows process inspector written in C++.**
 
-FelixScope is an open-source learning project focused on system monitoring, process management, and Windows internals.
+FelixScope is an open-source project focused on Windows process monitoring, system diagnostics, and learning low-level Windows APIs.
 
-The long-term goal is to build a fast, lightweight, and user-friendly Windows process inspector.
+The goal is to build a fast, lightweight, and user-friendly alternative for inspecting running processes on Windows.
 
-## 🚀 Current Features (v0.2)
+## 🚀 Current Features (v0.3)
 
-- Display a list of simulated processes
+- List real running Windows processes
+- Display process IDs (PIDs) and executable names
 - Search for processes by PID
-- Find the process with the highest RAM usage
-- Add new processes dynamically
+- Refresh the process list
+- Retrieve process information using the Windows Tool Help API
 - Store process information using C++ structs and vectors
-- Interactive terminal menu
-- Basic input handling
+- Interactive command-line interface (CLI)
+- Basic Windows API error handling
 
-> **Note:** Version 0.2 still uses simulated process data. Real Windows process monitoring is planned for future releases.
+> **Note:** FelixScope v0.3 reads real process information from Windows. RAM usage monitoring, advanced diagnostics, and a graphical interface are planned for future versions.
 
 ## 🛠️ Technologies
 
 - **Language:** C++17
+- **Operating System:** Windows
+- **IDE:** Visual Studio 2026
+- **API:** Windows API (Tool Help Library)
+- **Data Structures:** `struct`, `std::vector`
 - **Interface:** Command-line interface (CLI)
-- **Data structures:** `struct`, `std::vector`
-- **Platform:** Linux and Windows (Windows-specific functionality planned)
 
-## 📦 Getting Started
+### Windows API Functions
+
+FelixScope currently uses:
+
+- `CreateToolhelp32Snapshot()` — creates a snapshot of running processes
+- `Process32First()` — retrieves the first process
+- `Process32Next()` — retrieves subsequent processes
+- `CloseHandle()` — releases the snapshot handle
+
+## 📦 Installation and Usage
 
 ### Requirements
 
-- A C++17-compatible compiler (GCC, Clang or MinGW-w64)
+- Windows 10 or Windows 11
+- Visual Studio with C++ Desktop Development tools installed
+- A C++17-compatible compiler
 
 ### Build and Run
 
-**Linux:**
+1. Clone the repository:
 
-```bash
-g++ -std=c++17 main.cpp -o FelixScope
-./FelixScope
+   ```bash
+   git clone https://github.com/Zagy111/FelixScope.git
+   ```
+
+2. Open Visual Studio.
+3. Create an empty C++ console project.
+4. Add the existing `FelixScope.cpp` file to the project.
+5. Set the Character Set to **Use Multi-Byte Character Set**.
+6. Build and run the application using `Ctrl + F5`.
+
+## 🖥️ Example
+
+```text
+===== FelixScope v0.3 =====
+
+1. Wyswietl procesy
+2. Wyszukaj proces
+4. Wyjscie
+
+Twoj wybor: 1
+
+PROCESY
+PID       NAZWA
+4         System
+1234      explorer.exe
+5678      chrome.exe
+9012      discord.exe
 ```
 
-**Windows (MinGW-w64):**
+*Example output. Actual process names and PIDs depend on your system.*
 
-```bash
-g++ -std=c++17 main.cpp -o FelixScope.exe
-.\FelixScope.exe
-```
-
-## 🗺️ Roadmap
+## 🗺️ Development Roadmap
 
 - [x] **v0.1** — Simulated process monitoring
-- [x] **v0.2** — Process structs, vectors and dynamic process creation
-- [ ] **v0.3** — Read real Windows processes using the Windows API
-- [ ] **v0.4** — Display real-time RAM usage and process details
+- [x] **v0.2** — Process structs, vectors, and dynamic process creation
+- [x] **v0.3** — Real Windows process enumeration using Windows API
+- [ ] **v0.4** — Real RAM usage monitoring and process sorting
+- [ ] **v0.5** — CPU monitoring, thread information, and process details
+- [ ] **v0.6** — Improved error handling, input validation, and code architecture
 - [ ] **v1.0** — Graphical user interface (GUI)
 
 ## 🔧 Planned Improvements
 
-- Prevent duplicate PIDs
-- Improve input validation
-- Improve code organization
-- Add process sorting and filtering
+- Real-time process monitoring
+- CPU and memory usage statistics
+- Sorting and filtering processes
+- Better input validation
+- Full Unicode support
+- Improved error handling
+- Graphical interface for Windows
+- Performance optimization
 
 ## 🎯 Project Goals
 
-- Improve C++ programming skills
-- Learn Windows API and Windows internals
-- Practice clean code and software architecture
+- Develop practical C++ programming skills
+- Understand Windows API and system internals
+- Learn process management and memory monitoring
+- Improve software architecture and code quality
 - Build a useful open-source Windows utility
 
 ## 👨‍💻 Author
 
-Created by [Zagy111](https://github.com/Zagy111).
-
----
-
-*Developed in memory of Felix. 🐾*
+Created and maintained by [Zagy111](https://github.com/Zagy111).
